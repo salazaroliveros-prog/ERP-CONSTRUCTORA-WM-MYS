@@ -1,0 +1,33 @@
+name: Verify Production API
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  verify-production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify deployed API and CORS
+        env:
+          API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://erp-principal-m-s.vercel.app' }}
+          FRONTEND_ORIGIN: https://salazaroliveros-prog.github.io
+          VERIFY_USER_EMAIL: ci-check@local.test
+        run: npm run verify:prod
