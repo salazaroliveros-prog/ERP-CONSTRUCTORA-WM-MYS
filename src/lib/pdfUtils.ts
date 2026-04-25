@@ -5,7 +5,8 @@ import { COMPANY_DISPLAY_NAME, COMPANY_TAGLINE } from './reportBranding';
 const sharedLogoImage = (() => {
   if (typeof window === 'undefined') return null;
   const image = new Image();
-  image.src = '/logo.svg';
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+  image.src = `${base}/logo.svg`;
   return image;
 })();
 
