@@ -1,4 +1,4 @@
-const configuredBase = (import.meta.env.VITE_API_BASE_URL || '').trim();
+const configuredBase = (import.meta.env.VITE_API_BASE_URL || 'https://erp-constructora-wmmys.vercel.app').trim();
 const AUTH_STORAGE_KEY = 'erp_local_auth_user';
 const OFFLINE_QUEUE_KEY = 'erp_offline_request_queue';
 const OFFLINE_CACHE_PREFIX = 'erp_offline_cache:';
