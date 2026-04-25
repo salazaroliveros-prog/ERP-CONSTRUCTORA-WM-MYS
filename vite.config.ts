@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     // Dynamic base path for GitHub Pages or Vercel
-    base: env.GITHUB_ACTIONS ? '/ERP-PRINCIPAL-M-S/' : '/',
+    base: env.GITHUB_ACTIONS ? '/ERP-CONSTRUCTORA-WM-MYS/' : '/'},
 
     plugins: [
       react(),
