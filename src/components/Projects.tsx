@@ -1032,10 +1032,21 @@ export default function Projects() {
     setIsEmailModalOpen(true);
   };
 
-  const confirmSendEmail = () => {
-    // Simulate sending email
-    alert(`Informe enviado con éxito a ${emailTo}`);
-    setIsEmailModalOpen(false);
+    const confirmSendEmail = async () => {
+    if (!emailTo.trim()) { toast.error('Ingresa un correo destinatario'); return; }
+    try {
+      const doc = generateReport(reportingProject);
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      await sendPdfReportByEmail({
+        to: emailTo.trim(),
+        subject: `Informe de Proyecto: ${reportingProject?.name || ""}`,
+        html: `<p>Adjunto el informe del proyecto <strong>${reportingProject?.name || ""}</strong>.</p>`,
+        fileName: `Informe_${(reportingProject?.name || "proyecto").replace(/\s+/g, "_")}.pdf`,
+        pdfBase64,
+      });
+      toast.success(`Informe enviado a ${emailTo}`);
+      setIsEmailModalOpen(false);
+    } catch { toast.error('No se pudo enviar el informe'); }
   };
 
   const handleDeleteProject = async (id: string) => {

@@ -943,9 +943,21 @@ export default function ProjectDetails({ projectId, onBack }: ProjectDetailsProp
     setIsEmailModalOpen(true);
   };
 
-  const confirmSendEmail = () => {
-    alert(`Informe enviado con éxito a ${emailTo}`);
-    setIsEmailModalOpen(false);
+    const confirmSendEmail = async () => {
+    if (!emailTo.trim()) { toast.error('Ingresa un correo destinatario'); return; }
+    try {
+      const doc = buildExecutiveReportPdf({ projects: [project], financials: { totalIncome: 0, totalExpense: 0 }, inventoryAlerts: [], risks: [] });
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      await sendPdfReportByEmail({
+        to: emailTo.trim(),
+        subject: `Informe de Proyecto: ${project?.name || ""}`,
+        html: `<p>Adjunto el informe del proyecto <strong>${project?.name || ""}</strong>.</p>`,
+        fileName: `Informe_${(project?.name || "proyecto").replace(/\s+/g, "_")}.pdf`,
+        pdfBase64,
+      });
+      toast.success(`Informe enviado a ${emailTo}`);
+      setIsEmailModalOpen(false);
+    } catch { toast.error('No se pudo enviar el informe'); }
   };
 
   const handleEmailReport = async () => {
