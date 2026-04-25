@@ -1510,7 +1510,6 @@ export default function App() {
               onInstall={handleInstall}
             />
           </Router>
-          <VercelAnalytics />
         </NotificationProvider>
       </ThemeProvider>
     </ErrorBoundary>
