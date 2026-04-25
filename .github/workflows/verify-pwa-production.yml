@@ -13,7 +13,7 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  APP_URL: https://salazaroliveros-prog.github.io/ERP-PRINCIPAL-M-S
+  APP_URL: https://salazaroliveros-prog.github.io/ERP-CONSTRUCTORA-WM-MYS
 
 jobs:
   verify-pwa-production:
