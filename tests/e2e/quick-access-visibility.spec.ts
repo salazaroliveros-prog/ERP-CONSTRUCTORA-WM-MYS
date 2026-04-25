@@ -26,8 +26,8 @@ async function expectDockVisible(page: import('@playwright/test').Page) {
   const aiButton = page.locator('button[title="Asistente IA"]');
   const shortcutsButton = page.locator('button[title="Atajos"]');
 
-  await expect(aiButton).toBeVisible();
-  await expect(shortcutsButton).toBeVisible();
+  await expect(aiButton).toBeVisible({ timeout: 8000 });
+  await expect(shortcutsButton).toBeVisible({ timeout: 8000 });
 }
 
 test.beforeEach(async ({ context }) => {
@@ -36,6 +36,9 @@ test.beforeEach(async ({ context }) => {
 
 test('dock de acceso rapido permanece visible con scroll y cambio de modulos', async ({ page, baseURL }) => {
   await page.goto(`${baseURL ?? 'http://127.0.0.1:3000'}/#/`);
+
+  // Esperar a que la app cargue y enhancementsReady active el dock (1500ms + lazy load)
+  await page.waitForSelector('button[title="Asistente IA"]', { timeout: 10000 });
 
   await expectDockVisible(page);
 
